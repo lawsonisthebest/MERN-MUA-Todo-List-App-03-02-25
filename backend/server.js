@@ -61,7 +61,7 @@ const authMiddleware = (req, res, next) => {
 };
 
 // Get All Tasks (for logged-in users)
-app.get('https://mern-mua-todo-list-app-backend.onrender.com//api/tasks', authMiddleware, async (req, res) => {
+app.get('/api/tasks', authMiddleware, async (req, res) => {
     try {
         const tasks = await Task.find({ userId: req.userId }); // Find tasks associated with the logged-in user
         res.json(tasks);
@@ -72,7 +72,7 @@ app.get('https://mern-mua-todo-list-app-backend.onrender.com//api/tasks', authMi
 });
 
 // Create a Task (for logged-in users)
-app.post('https://mern-mua-todo-list-app-backend.onrender.com//api/task', authMiddleware, async (req, res) => {
+app.post('/api/task', authMiddleware, async (req, res) => {
     const { task } = req.body;
     if (!task) {
         return res.status(400).json({ message: 'Task content is required' });
@@ -94,7 +94,7 @@ app.post('https://mern-mua-todo-list-app-backend.onrender.com//api/task', authMi
 });
 
 // Update Task completion status
-app.put('https://mern-mua-todo-list-app-backend.onrender.com//api/task/:id', authMiddleware, async (req, res) => {
+app.put('/api/task/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     try {
         const task = await Task.findOne({ _id: id, userId: req.userId }); // Ensure the task belongs to the logged-in user
@@ -110,7 +110,7 @@ app.put('https://mern-mua-todo-list-app-backend.onrender.com//api/task/:id', aut
 });
 
 // Delete Task
-app.delete('https://mern-mua-todo-list-app-backend.onrender.com//api/task/:id', authMiddleware, async (req, res) => {
+app.delete('/api/task/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     try {
         const task = await Task.findOneAndDelete({ _id: id, userId: req.userId }); // Ensure the task belongs to the logged-in user
@@ -124,7 +124,7 @@ app.delete('https://mern-mua-todo-list-app-backend.onrender.com//api/task/:id', 
 });
 
 // Signup Route
-app.post('https://mern-mua-todo-list-app-backend.onrender.com//api/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     const { username, email, password } = req.body;
 
     try {
@@ -148,7 +148,7 @@ app.post('https://mern-mua-todo-list-app-backend.onrender.com//api/signup', asyn
 });
 
 // Login Route
-app.post('https://mern-mua-todo-list-app-backend.onrender.com//api/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
