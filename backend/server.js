@@ -13,23 +13,21 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve static files from the React app's build directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// If you want to handle any other routes, send the index.html file to let React Router work
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 
 // Allows us to use the .env file
 dotenv.config();
 
 // Allows us to use JSON in the body of the request
 app.use(express.json());
-app.use(cors({
-  origin: '*' // Allow all origins, or specify your frontend URL
-}));
+// CORS configuration to allow requests from the frontend domain
+const corsOptions = {
+  origin: 'https://mern-mua-todo-list-app-frontend.onrender.com', // Allow your frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  credentials: true, // Allow cookies to be sent
+};
+
+// Serve static files from the React app's build directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the port from the .env file or 4000
 const port = process.env.PORT;
@@ -75,6 +73,11 @@ const authMiddleware = (req, res, next) => {
         return res.status(401).json({ message: 'Invalid or expired token' });
     }
 };
+
+// If you want to handle any other routes, send the index.html file to let React Router work
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Get All Tasks (for logged-in users)
 app.get('/api/tasks', authMiddleware, async (req, res) => {
