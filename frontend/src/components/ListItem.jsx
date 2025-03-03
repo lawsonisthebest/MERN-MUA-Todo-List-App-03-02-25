@@ -4,7 +4,7 @@ const ListItem = ({task}) => {
     const token = localStorage.getItem('token'); // Get the token from localStorage
 
   const deleteTask = async (id) => {
-    const response = await fetch('http://localhost:4000/api/task/'+id, {
+    const response = await fetch('https://mern-mua-todo-list-app-backend.onrender.com/api/task/'+id, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ const ListItem = ({task}) => {
   }
 
   const toggleCompletion = async (id) => {
-    const response = await fetch('http://localhost:4000/api/task/'+id, {
+    const response = await fetch('https://mern-mua-todo-list-app-backend.onrender.com/api/task/'+id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
