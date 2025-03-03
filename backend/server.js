@@ -25,9 +25,6 @@ app.get('*', (req, res) => {
 // Allows us to use the .env file
 dotenv.config();
 
-// Create an express app
-const app = express();
-
 // Allows us to use JSON in the body of the request
 app.use(express.json());
 app.use(cors({
