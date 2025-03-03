@@ -12,7 +12,7 @@ const Home = () => {
     // Fetch tasks from the backend
     const fetchTasks = async () => {
         try {
-            const response = await fetch('http://localhost:4000/api/tasks', {
+            const response = await fetch('https://mern-mua-todo-list-app-backend.onrender.com/api/tasks', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

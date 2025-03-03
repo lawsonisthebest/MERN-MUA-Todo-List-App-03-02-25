@@ -4,19 +4,35 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const app = express();
+
+// Get the directory name for the current file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the React app's build directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// If you want to handle any other routes, send the index.html file to let React Router work
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 // Allows us to use the .env file
 dotenv.config();
 
-// Create an express app
-const app = express();
-
 // Allows us to use JSON in the body of the request
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: '*' // Allow all origins, or specify your frontend URL
+}));
 
 // Set the port from the .env file or 4000
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 
 // Try to connect to the database
 const connectDB = async () => {
@@ -70,6 +86,7 @@ app.get('/api/tasks', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 // Create a Task (for logged-in users)
 app.post('/api/task', authMiddleware, async (req, res) => {
