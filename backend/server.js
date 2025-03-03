@@ -5,6 +5,22 @@ import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const app = express();
+
+// Get the directory name for the current file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the React app's build directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// If you want to handle any other routes, send the index.html file to let React Router work
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 // Allows us to use the .env file
 dotenv.config();
@@ -17,8 +33,6 @@ app.use(express.json());
 app.use(cors({
   origin: '*' // Allow all origins, or specify your frontend URL
 }));
-// Serve static files from the React app's build directory
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the port from the .env file or 4000
 const port = process.env.PORT;
@@ -74,12 +88,6 @@ app.get('/api/tasks', authMiddleware, async (req, res) => {
         console.log(error);
         res.status(500).json({ message: 'Server error' });
     }
-});
-
-
-// If you want to handle any other routes, send the index.html file to let React Router work
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 
