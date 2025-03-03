@@ -79,7 +79,7 @@ const authMiddleware = (req, res, next) => {
 };
 
 // If you want to handle any other routes, send the index.html file to let React Router work
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
