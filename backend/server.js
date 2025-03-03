@@ -13,7 +13,6 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 // Allows us to use the .env file
 dotenv.config();
 
@@ -95,7 +94,6 @@ app.get('/api/tasks', authMiddleware, async (req, res) => {
     }
 });
 
-
 // Create a Task (for logged-in users)
 app.post('/api/task', authMiddleware, async (req, res) => {
     const { task } = req.body;
@@ -111,7 +109,8 @@ app.post('/api/task', authMiddleware, async (req, res) => {
         });
 
         await newTask.save(); // Save the task to the database
-        res.status(201).json({ message: 'Task created successfully', task: newTask });
+        const tasks = await Task.find({ userId: req.userId }); // Get all tasks after adding the new one
+        res.status(201).json({ message: 'Task created successfully', tasks }); // Send all tasks as the response
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Server error' });
