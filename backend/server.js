@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 // Set the port from the .env file or 4000
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 
 // Try to connect to the database
 const connectDB = async () => {
