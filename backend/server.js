@@ -19,12 +19,17 @@ dotenv.config();
 
 // Allows us to use JSON in the body of the request
 app.use(express.json());
+
 // CORS configuration to allow requests from the frontend domain
 const corsOptions = {
-  origin: 'https://mern-mua-todo-list-app-frontend.onrender.com', // Allow your frontend domain
+  origin: 'https://mern-mua-todo-list-app-frontend.onrender.com', // Your frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers (Content-Type, Authorization, etc.)
   credentials: true, // Allow cookies to be sent
 };
+
+// Apply the CORS middleware
+app.use(cors(corsOptions));
 
 // Serve static files from the React app's build directory
 app.use(express.static(path.join(__dirname, 'public')));
