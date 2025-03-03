@@ -6,7 +6,6 @@ backend/.env
 
 
 # Ignore build directories
-frontend/build/
 frontend/dist/
 backend/build/
 backend/dist/
