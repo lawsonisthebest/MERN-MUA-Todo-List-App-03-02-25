@@ -13,7 +13,11 @@ const app = express();
 
 // Allows us to use JSON in the body of the request
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: '*' // Allow all origins, or specify your frontend URL
+}));
+// Serve static files from the React app's build directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set the port from the .env file or 4000
 const port = process.env.PORT;
@@ -70,6 +74,13 @@ app.get('/api/tasks', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+
+// If you want to handle any other routes, send the index.html file to let React Router work
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 // Create a Task (for logged-in users)
 app.post('/api/task', authMiddleware, async (req, res) => {
