@@ -26,7 +26,7 @@ const Signup = () => {
     }
 
     // Call your API to sign up the user
-    const response = await fetch('http://localhost:4000/api/signup', {
+    const response = await fetch('https://mern-mua-todo-list-app-backend.onrender.com/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
